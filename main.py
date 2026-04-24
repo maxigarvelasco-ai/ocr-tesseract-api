@@ -9,10 +9,8 @@ import json
 
 app = FastAPI()
 
-# Modelo OCR global: se carga una vez al arrancar la API.
-# lang="latin" suele andar bien para español en flyers con caracteres latinos.
 ocr_engine = PaddleOCR(
-    lang="latin",
+    lang="en",
     ocr_version="PP-OCRv5",
     device="cpu",
     use_doc_orientation_classify=False,
