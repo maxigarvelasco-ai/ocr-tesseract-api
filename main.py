@@ -13,10 +13,15 @@ ocr_engine = PaddleOCR(
     lang="en",
     ocr_version="PP-OCRv5",
     device="cpu",
+
+    text_detection_model_name="PP-OCRv5_mobile_det",
+    text_recognition_model_name="en_PP-OCRv5_mobile_rec",
+
     use_doc_orientation_classify=False,
     use_doc_unwarping=False,
     use_textline_orientation=False,
-    text_det_limit_side_len=1600,
+
+    text_det_limit_side_len=960,
     text_det_limit_type="max",
     text_rec_score_thresh=0.0,
 )
@@ -34,16 +39,15 @@ def clean_text(text: str) -> str:
 def preprocess_image(image: Image.Image) -> Image.Image:
     image = image.convert("RGB")
 
-    # Si la imagen es muy chica, la agrandamos. Instagram comprime mucho.
     w, h = image.size
     max_side = max(w, h)
-    if max_side < 1800:
-        scale = 1800 / max_side
+
+    if max_side > 1280:
+        scale = 1280 / max_side
         image = image.resize((int(w * scale), int(h * scale)))
 
-    # Mejor contraste para flyers.
-    image = ImageEnhance.Contrast(image).enhance(1.35)
-    image = ImageEnhance.Sharpness(image).enhance(1.25)
+    image = ImageEnhance.Contrast(image).enhance(1.15)
+    image = ImageEnhance.Sharpness(image).enhance(1.1)
 
     return image
 
