@@ -3,3 +3,6 @@ uvicorn[standard]
 pillow
 pytesseract
 python-multipart
+rapidocr-onnxruntime==1.4.4
+opencv-python-headless
+numpy
